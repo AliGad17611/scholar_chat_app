@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "750152695490",
+    "project_id": "chat-app-e72dd",
+    "storage_bucket": "chat-app-e72dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750152695490:android:e3d5f65222e4a9ea17055b",
+        "android_client_info": {
+          "package_name": "com.example.scholar_chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwVr7kpc8vbEwGruXYyyhb1xmQ_5EDRCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
