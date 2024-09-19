@@ -20,14 +20,14 @@ class ScholarChatApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/loginPage': (context) =>  const LoginPage(),
-        '/registerPage': (context) =>  const RegisterPage(),
-        '/chatPage': (context) =>   ChatPage(),
+        '/loginPage': (context) => const LoginPage(),
+        '/registerPage': (context) => const RegisterPage(),
+        '/chatPage': (context) => const ChatPage(),
       },
       debugShowCheckedModeBanner: false,
       title: 'Scholar Chat App',
       theme: ThemeData.dark(),
-      home:  const LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
