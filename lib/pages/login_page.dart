@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:scholar_chat_app/constants.dart';
-import 'package:scholar_chat_app/cubit/login_cubit/login_cubit.dart';
-import 'package:scholar_chat_app/cubit/login_cubit/login_state.dart';
+import 'package:scholar_chat_app/cubit/bloc/auth_bloc.dart';
 import 'package:scholar_chat_app/helper/show_snackbar.dart';
 import 'package:scholar_chat_app/widgets/custom_button.dart';
 import 'package:scholar_chat_app/widgets/custom_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
-   const LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -24,22 +23,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit,LoginState >(
+      create: (context) => AuthBloc(),
+      child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is LoginLoading) {
+          if (state is AuthLoading) {
             isLoading = true;
-          }
-          else if (state is LoginSuccess) {
+          } else if (state is AuthSuccess) {
             isLoading = false;
-            Navigator.pushNamed(this.context, '/chatPage', arguments: emailAddress);
-          }
-          else if (state is LoginFailed) {
+            Navigator.pushNamed(this.context, '/chatPage',
+                arguments: emailAddress);
+          } else if (state is AuthFailed) {
             isLoading = false;
             showSnackBar(context, state.errMessage);
-          }
-          else{}
-
+          } else {}
         },
         builder: (context, state) {
           return ModalProgressHUD(
@@ -107,10 +103,12 @@ class _LoginPageState extends State<LoginPage> {
                               buttonText: 'LOGIN',
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
-                                  BlocProvider.of<LoginCubit>(context).loginUser(emailAddress: emailAddress, password: password);
-                                  
-
-                                  
+                                  BlocProvider.of<AuthBloc>(context).add(
+                                    LoginEvent(
+                                      email: emailAddress,
+                                      password: password,
+                                    ),
+                                  );
                                 }
                               },
                             ),

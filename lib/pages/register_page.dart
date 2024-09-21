@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scholar_chat_app/constants.dart';
-import 'package:scholar_chat_app/cubit/register_cubit/register_cubit.dart';
-import 'package:scholar_chat_app/cubit/register_cubit/register_state.dart';
+import 'package:scholar_chat_app/cubit/bloc/auth_bloc.dart';
 import 'package:scholar_chat_app/helper/show_snackbar.dart';
 import 'package:scholar_chat_app/widgets/custom_button.dart';
 import 'package:scholar_chat_app/widgets/custom_text_form_field.dart';
@@ -26,15 +25,16 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterCubit(),
-      child: BlocConsumer<RegisterCubit, RegisterState>(
+      create: (context) => AuthBloc(),
+      child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is RegisterLoading) {
+          if (state is AuthLoading) {
             isLoading = true;
-          } else if (state is RegisterSuccess) {
+          } else if (state is AuthSuccess) {
             isLoading = false;
-            Navigator.pushNamed(this.context, '/chatPage', arguments: emailAddress);
-          } else if (state is RegisterFailure) {
+            Navigator.pushNamed(this.context, '/chatPage',
+                arguments: emailAddress);
+          } else if (state is AuthFailed) {
             isLoading = false;
             showSnackBar(context, state.errMessage);
           } else {
@@ -113,10 +113,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }
 
                                 if (formKey.currentState!.validate()) {
-                                  BlocProvider.of<RegisterCubit>(context)
-                                      .registerUser(
-                                          emailAddress: emailAddress,
-                                          password: password);
+                                  BlocProvider.of<AuthBloc>(context).add(
+                                      RegisterEvent(
+                                          email: emailAddress,
+                                          password: password));
                                 }
                               },
                             ),
